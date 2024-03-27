@@ -1,59 +1,63 @@
-from tkinter import *
+import os
+from datetime import date
 
-def btnClick(number):
-    global val
-    val=val+str(number)
-    data.set(val)
-    
-def btnClear():
-    global val
-    val=""
-    data.set("")
-    
-def btnEquals():
-    global val
+
+def welcome(name):
+    print(f""" WELCOME $ {name} $ TO TO_DO_LISTS APPLICATION
+        1--> UPDATE LIST
+        2--> TRACK LIST
+        3--> exit""")
+
+
+def to_do_list_create(name):
+    with open(f"{name}.txt", 'a')as f:
+        f.write("")
+    print("To do List_File is created Successfully")
+
+
+def update(name):
+
+    print(f"Welcome, {name} to EDIT Menu")
+    choice = int(
+        input("Press '1' to ADD '2' to DELETE List_File: "))
+    if choice == 1:
+        task = input("Enter Task to ADD: ")
+        with open(f"{name}.txt", 'a') as f:
+            f.write(f"{task} - {date.today()}\n")
+
+    elif choice == 2:
+        try:
+            os.remove(f"{name}.txt")
+            print(f"{name} list_file Deleted Successfully")
+        except ValueError:
+            print("Something gone Wrong!!")
+    else:
+        print("Invalid Choice")
+
+
+def track(name):
     try:
-        result=str(eval(val))
-        data.set(result)
-    except:
-        data.set("Error")
-root=Tk()
-root.title("My Calculator")
-root.geometry('361x381+500+200')
-val=" "
-data=StringVar()
-display=Entry(root,textvariable=data,bd=29,justify="right",bg="powder blue", font=("Arial",20))
-display.grid(row=0,columnspan=4)
-btn7=Button(root,text="7",font=("Ariel",12,"bold"),bd=12,height=2,width=6,command=lambda:btnClick(7))
-btn7.grid(row=1,column=0)
-btn8=Button(root,text="8",font=("Ariel",12,"bold"),bd=12,height=2,width=6,command=lambda:btnClick(8))
-btn8.grid(row=1,column=1)
-btn9=Button(root,text="9",font=("Ariel",12,"bold"),bd=12,height=2,width=6,command=lambda:btnClick(9))
-btn9.grid(row=1,column=2)
-btn_add=Button(root,text="+",font=("Ariel",12,"bold"),bd=12,height=2,width=6,command=lambda:btnClick('+'))
-btn_add.grid(row=1,column=3)
-btn4=Button(root,text="4",font=("Ariel",12,"bold"),bd=12,height=2,width=6,command=lambda:btnClick(4))
-btn4.grid(row=2,column=0)
-btn5=Button(root,text="5",font=("Ariel",12,"bold"),bd=12,height=2,width=6,command=lambda:btnClick(5))
-btn5.grid(row=2,column=1)
-btn6=Button(root,text="6",font=("Ariel",12,"bold"),bd=12,height=2,width=6,command=lambda:btnClick(6))
-btn6.grid(row=2,column=2)
-btn_substract=Button(root,text="-",font=("Ariel",12,"bold"),bd=12,height=2,width=6,command=lambda:btnClick('-'))
-btn_substract.grid(row=2,column=3)
-btn1=Button(root,text="1",font=("Ariel",12,"bold"),bd=12,height=2,width=6,command=lambda:btnClick(1))
-btn1.grid(row=3,column=0)
-btn2=Button(root,text="2",font=("Ariel",12,"bold"),bd=12,height=2,width=6,command=lambda:btnClick(2))
-btn2.grid(row=3,column=1)
-btn3=Button(root,text="3",font=("Ariel",12,"bold"),bd=12,height=2,width=6,command=lambda:btnClick(3))
-btn3.grid(row=3,column=2)
-btn_divide=Button(root,text="/",font=("Ariel",12,"bold"),bd=12,height=2,width=6,command=lambda:btnClick('/'))
-btn_divide.grid(row=3,column=3)
-btnC=Button(root,text="C",font=("Ariel",12,"bold"),bd=12,height=2,width=6,command=btnClear)
-btnC.grid(row=4,column=0)
-btn0=Button(root,text="0",font=("Ariel",12,"bold"),bd=12,height=2,width=6,command=lambda:btnClick(0))
-btn0.grid(row=4,column=1)
-btnEqual=Button(root,text="=",font=("Ariel",12,"bold"),bd=12,height=2,width=6,command=btnEquals)
-btnEqual.grid(row=4,column=2)
-btn_multiply=Button(root,text="*",font=("Ariel",12,"bold"),bd=12,height=2,width=6,command=lambda:btnClick('*'))
-btn_multiply.grid(row=4,column=3)
-root.mainloop()
+        with open(f"{name}.txt", 'r')as f:
+            result = f.read()
+            if result == "":
+                print("No Task Here")
+            else:
+                print(result)
+    except FileNotFoundError:
+        print(
+            f"List with the UserName '{name}' NOT FOUND, please first ADD your List")
+
+
+name = input("Please Enter Your Name: ")
+to_do_list_create(name)
+while True:
+    welcome(name)
+    choice = int(input("Enter Choice: "))
+    if choice == 1:
+        update(name)
+    elif choice == 2:
+        track(name)
+    elif choice == 3:
+        exit
+    else:
+        print("Invalid Choice")
