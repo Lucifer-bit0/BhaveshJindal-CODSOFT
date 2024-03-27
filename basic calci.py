@@ -1,63 +1,44 @@
-import os
-from datetime import date
-
-
-def welcome(name):
-    print(f""" WELCOME $ {name} $ TO TO_DO_LISTS APPLICATION
-        1--> UPDATE LIST
-        2--> TRACK LIST
-        3--> exit""")
-
-
-def to_do_list_create(name):
-    with open(f"{name}.txt", 'a')as f:
-        f.write("")
-    print("To do List_File is created Successfully")
-
-
-def update(name):
-
-    print(f"Welcome, {name} to EDIT Menu")
-    choice = int(
-        input("Press '1' to ADD '2' to DELETE List_File: "))
-    if choice == 1:
-        task = input("Enter Task to ADD: ")
-        with open(f"{name}.txt", 'a') as f:
-            f.write(f"{task} - {date.today()}\n")
-
-    elif choice == 2:
-        try:
-            os.remove(f"{name}.txt")
-            print(f"{name} list_file Deleted Successfully")
-        except ValueError:
-            print("Something gone Wrong!!")
+def input_num():
+    a = int(input("Enter 1st Number: "))
+    b = int(input("Enter 2nd Number: "))
+    return a,b
+def addition(a,b):
+    print(f"Result: {a+b}")
+def subtraction(a,b):
+    print(f"Result: {a-b}")
+def multiplication(a,b):
+    print(f"Result: {a*b}")
+def division(a,b):
+    if b!=0:
+        print(f"Result: {a/b}")
     else:
-        print("Invalid Choice")
+        print("Dominator can't be Zero")
 
+def welcome():
 
-def track(name):
-    try:
-        with open(f"{name}.txt", 'r')as f:
-            result = f.read()
-            if result == "":
-                print("No Task Here")
-            else:
-                print(result)
-    except FileNotFoundError:
-        print(
-            f"List with the UserName '{name}' NOT FOUND, please first ADD your List")
+    print(f"""Enter the arithmetic operator you want to use.
+        1--> ADDITION
+        2--> SUBTRACTION
+        3--> MULTIPLICATION
+        4--> DIVISION
+        5--> exit""")
 
-
-name = input("Please Enter Your Name: ")
-to_do_list_create(name)
-while True:
-    welcome(name)
-    choice = int(input("Enter Choice: "))
+while(True):
+    welcome()
+    choice = int(input("Enter you choice number: "))
     if choice == 1:
-        update(name)
-    elif choice == 2:
-        track(name)
-    elif choice == 3:
-        exit
-    else:
-        print("Invalid Choice")
+        a,b = input_num()
+        addition(a,b)
+    elif choice==2:
+        a, b = input_num()
+        subtraction(a,b)
+    elif choice ==3:
+        a, b = input_num()
+        multiplication(a,b)
+    elif choice ==4:
+        a, b = input_num()
+        division(a,b)
+    elif choice ==5:
+        exit()
+    else :
+        print("Enter Valid Choice")
